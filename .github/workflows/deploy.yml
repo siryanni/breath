@@ -9,6 +9,7 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # This environment link is crucial so that GitHub releases the environment secrets!
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
