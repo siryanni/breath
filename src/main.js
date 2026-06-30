@@ -26,6 +26,7 @@ function updateClock() {
     dateContainer.id = "current-date";
     document.querySelector("#clock").after(dateContainer);
   }
+  // Standard international tech date format (YYYY-MM-DD or DD.MM.YYYY)
   dateContainer.innerHTML = `${day}.${month}.${year}`;
 }
 
@@ -52,18 +53,25 @@ function calculateAge(nasaDateStr) {
   }
 }
 
-// 3. Fetch data from the NASA APOD API mit Server-Schutz
-fetch(`https://api.nasa.gov/planetary/apod?api_key=${API_KEY}`)
+// 3. Fetch data from the NASA APOD API (Optimized for GitHub Pages)
+const url = new URL("https://api.nasa.gov/planetary/apod");
+url.searchParams.append("api_key", API_KEY);
+
+fetch(url.toString(), {
+  method: "GET",
+  headers: {
+    "Accept": "application/json"
+  }
+})
   .then(response => {
-    // Falls die NASA einen Server-Fehler (wie Text statt JSON) schickt
     if (!response.ok) {
-      throw new Error(`NASA Server-Ausfall (${response.status}). Bitte später noch einmal versuchen!`);
+      throw new Error(`NASA Server downtime or block (${response.status}). Please reload the page shortly!`);
     }
     return response.json();
   })
   .then(data => {
     if (data.error || !data.date) {
-      throw new Error(data.error?.message || "Ungültige NASA-Antwort");
+      throw new Error(data.error?.message || "Invalid NASA response");
     }
 
     let media;
@@ -87,9 +95,8 @@ fetch(`https://api.nasa.gov/planetary/apod?api_key=${API_KEY}`)
     `;
   })
   .catch(err => {
-    // Zeigt jetzt eine saubere, verständliche Fehlermeldung statt dem JSON-Absturz
     document.querySelector("#app").innerHTML = `
-      <p style="color: #ef4444; font-weight: bold;">⚠️ Fehler im Orbit</p>
+      <p style="color: #ef4444; font-weight: bold;">⚠️ Error in orbit</p>
       <p style="font-size: 1rem; margin-top: 0.5rem;">${err.message}</p>
     `;
   });
