@@ -53,18 +53,8 @@ function calculateAge(nasaDateStr) {
   }
 }
 
-// 3. Fetch data from the NASA APOD API (Optimized with Referrer-Anonymization for GitHub Pages)
-const url = new URL("https://api.nasa.gov/planetary/apod");
-url.searchParams.append("api_key", API_KEY);
-
-fetch(url.toString(), {
-  method: "GET",
-  mode: "cors",                 // Ensures secure Cross-Origin access
-  referrerPolicy: "no-referrer", // Hides the GitHub Pages URL from NASA to bypass the 403 block
-  headers: {
-    "Accept": "application/json"
-  }
-})
+// 3. Fetch data from the NASA APOD API (Standardized clean request)
+fetch(`https://api.nasa.gov/planetary/apod?api_key=${API_KEY}`)
   .then(response => {
     if (!response.ok) {
       throw new Error(`NASA Server downtime or block (${response.status}). Please reload the page shortly!`);
