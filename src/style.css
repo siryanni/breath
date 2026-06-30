@@ -1,4 +1,8 @@
-/* Reset defaults */
+/* ==========================================
+   🌌 COSMOPULSE DASHBOARD – FINAL COMPREHENSIVE STYLES
+   ========================================== */
+
+/* Reset basic browser spacing */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -8,71 +12,102 @@
 body {
   margin: 0;
   min-height: 100vh;
-  position: relative;
-  background-color: #100224; /* Dark space background from the guide */
-  color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   padding: 2rem;
   overflow-x: hidden;
+  
+  /* 🌌 BACKUP COLOR + YOUR LOCAL SPACE BACKGROUND IMAGE */
+  background-color: #0b0f19;
+  background-image: linear-gradient(rgba(11, 15, 25, 0.75), rgba(11, 15, 25, 0.85)), 
+                    url('/HerculesA_desktop.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  
+  color: #f8fafc;
 }
 
+/* 🕒 GIANTS TECH-CLOCK IN THE TOP CENTER */
 #clock {
   font-family: 'Orbitron', sans-serif;
   font-weight: 900;
-  font-size: 4rem;
-  letter-spacing: 4px;
+  font-size: 5.5rem; /* Massive spacy size */
+  letter-spacing: 6px;
+  color: #ff6200; /* Deep techy orange */
+  text-shadow: 0 0 25px rgba(255, 98, 0, 0.6), 0 0 50px rgba(255, 98, 0, 0.3);
+  margin-top: 1rem;
   margin-bottom: 1.5rem;
-  text-shadow: 0 0 20px rgba(255, 0, 128, 0.6);
-  color: #ff0080; /* Cool neon pink pulse */
-  z-index: 10;
+  text-align: center;
+  width: 100%;
 }
 
-/* 🌌 MAIN DASHBOARD CONTAINER */
+/* 📅 CURRENT DATE UNDER THE CLOCK */
+#current-date {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.5rem;
+  color: #ff6200;
+  opacity: 0.8;
+  letter-spacing: 2px;
+  margin-top: -1rem;
+  margin-bottom: 2.5rem;
+  text-shadow: 0 0 10px rgba(204, 78, 0, 0.4);
+  text-align: center;
+  width: 100%;
+}
+
+/* 🌌 GLASS DASHBOARD CONTAINER */
 #app {
-  max-width: 800px;
+  max-width: 850px;
   width: 100%;
   margin: 0 auto;
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 2rem;
-  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.65); /* Sleek translucent dark shield */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
   text-align: center;
   z-index: 10;
 }
 
+/* Techy Headings */
 h1 {
   font-family: 'Orbitron', sans-serif;
-  font-weight: 900;
-  font-size: 2rem;
+  font-weight: 700;
+  font-size: 2.2rem;
   margin-bottom: 1.5rem;
-  color: #00ffff; /* Neon cyan for headings */
-  text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+  color: #e2e8f0;
+  letter-spacing: 1px;
 }
 
-p, .explanation {
-  font-family: 'Black Ops One', sans-serif;
-  font-size: 1.1rem;
-  line-height: 1.6;
-  color: #e0e0e0;
+/* Loading/Error state */
+p {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.2rem;
+  color: #cbd5e1;
 }
 
+/* Media framing */
 .media-container {
   width: 100%;
-  margin: 1.5rem 0;
-  border-radius: 8px;
+  margin-bottom: 2rem;
+  border-radius: 12px;
   overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
 }
 
 .media-container img,
 .media-container video,
 .media-container iframe {
   width: 100%;
-  max-height: 500px;
-  object-fit: cover;
+  max-height: 480px;
+  object-fit: contain; /* Keeps the full NASA image aspect ratio intact */
+  background-color: #020617;
   display: block;
 }
 
@@ -81,44 +116,71 @@ p, .explanation {
   height: auto;
 }
 
-body::before,
-body::after {
-  content: '';
-  position: fixed;
-  top: 0;
-  width: 60px;
-  height: 100%;
-  background: linear-gradient(180deg, #ff0080, #00ffff);
-  z-index: -1;
+/* 🖼️ IMAGE METADATA (Date & Age under the image) */
+.image-meta {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.9rem;
+  color: #94a3b8;
+  margin-top: -1rem;
+  margin-bottom: 1.5rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
-/* Left zigzag strip */
-body::before {
-  left: 0;
-  clip-path: polygon(
-    0 0, 100% 0, 70% 5%, 100% 10%, 70% 15%, 100% 20%, 70% 25%, 100% 30%, 
-    70% 35%, 100% 40%, 70% 45%, 100% 50%, 70% 55%, 100% 60%, 70% 65%, 
-    100% 70%, 70% 75%, 100% 80%, 70% 85%, 100% 90%, 70% 95%, 100% 100%, 0 100%
-  );
+.image-meta span {
+  color: #ff6200; /* Highlights the age in our theme color */
+  font-weight: 600;
 }
 
-/* Right zigzag strip */
-body::after {
-  right: 0;
-  clip-path: polygon(
-    100% 0, 0 0, 30% 5%, 0 10%, 30% 15%, 0 20%, 30% 25%, 0 30%, 
-    30% 35%, 0 40%, 30% 45%, 0 50%, 30% 55%, 0 60%, 30% 65%, 
-    0 70%, 30% 75%, 0 80%, 30% 85%, 0 90%, 30% 95%, 0 100%, 100% 100%
-  );
+/* 📜 CUSTOM SCROLL WINDOW FOR THE LONG TEXT */
+.explanation {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #cbd5e1;
+  text-align: left;
+  
+  /* Text box restrictions with scrollbar */
+  max-height: 150px; 
+  overflow-y: auto;
+  padding-right: 1rem;
+  margin-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 1.5rem;
 }
 
-/* 📱 RESPONSIVE FIX (Hide side strips on phones) */
+/* Custom modern scrollbar for the text box */
+.explanation::-webkit-scrollbar {
+  width: 6px;
+}
+
+.explanation::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 10px;
+}
+
+.explanation::-webkit-scrollbar-thumb {
+  background: rgba(255, 98, 0, 0.4); /* Neon orange scroll thumb */
+  border-radius: 10px;
+}
+
+.explanation::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 98, 0, 0.7);
+}
+
+/* 📱 MOBILE OPTIMIZATION */
 @media (max-width: 600px) {
-  body::before,
-  body::after {
-    display: none;
-  }
   #clock {
-    font-size: 2.5rem;
+    font-size: 3.2rem;
+    letter-spacing: 3px;
+  }
+  #current-date {
+    font-size: 1.2rem;
+  }
+  h1 {
+    font-size: 1.6rem;
+  }
+  #app {
+    padding: 1.5rem;
   }
 }
