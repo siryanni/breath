@@ -1,0 +1,124 @@
+/* Reset defaults */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  position: relative;
+  background-color: #100224; /* Dark space background from the guide */
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2rem;
+  overflow-x: hidden;
+}
+
+#clock {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  font-size: 4rem;
+  letter-spacing: 4px;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 20px rgba(255, 0, 128, 0.6);
+  color: #ff0080; /* Cool neon pink pulse */
+  z-index: 10;
+}
+
+/* 🌌 MAIN DASHBOARD CONTAINER */
+#app {
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  z-index: 10;
+}
+
+h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #00ffff; /* Neon cyan for headings */
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+p, .explanation {
+  font-family: 'Black Ops One', sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #e0e0e0;
+}
+
+.media-container {
+  width: 100%;
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.media-container img,
+.media-container video,
+.media-container iframe {
+  width: 100%;
+  max-height: 500px;
+  object-fit: cover;
+  display: block;
+}
+
+.media-container iframe {
+  aspect-ratio: 16 / 9;
+  height: auto;
+}
+
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  width: 60px;
+  height: 100%;
+  background: linear-gradient(180deg, #ff0080, #00ffff);
+  z-index: -1;
+}
+
+/* Left zigzag strip */
+body::before {
+  left: 0;
+  clip-path: polygon(
+    0 0, 100% 0, 70% 5%, 100% 10%, 70% 15%, 100% 20%, 70% 25%, 100% 30%, 
+    70% 35%, 100% 40%, 70% 45%, 100% 50%, 70% 55%, 100% 60%, 70% 65%, 
+    100% 70%, 70% 75%, 100% 80%, 70% 85%, 100% 90%, 70% 95%, 100% 100%, 0 100%
+  );
+}
+
+/* Right zigzag strip */
+body::after {
+  right: 0;
+  clip-path: polygon(
+    100% 0, 0 0, 30% 5%, 0 10%, 30% 15%, 0 20%, 30% 25%, 0 30%, 
+    30% 35%, 0 40%, 30% 45%, 0 50%, 30% 55%, 0 60%, 30% 65%, 
+    0 70%, 30% 75%, 0 80%, 30% 85%, 0 90%, 30% 95%, 0 100%, 100% 100%
+  );
+}
+
+/* 📱 RESPONSIVE FIX (Hide side strips on phones) */
+@media (max-width: 600px) {
+  body::before,
+  body::after {
+    display: none;
+  }
+  #clock {
+    font-size: 2.5rem;
+  }
+}

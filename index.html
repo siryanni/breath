@@ -1,51 +1,17 @@
-// 1. Import the API key from the secure .env environment
-const API_KEY = import.meta.env.VITE_NASA_API_KEY;
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CosmoPulse Dashboard</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Black+Ops+One&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="clock">00:00:00</div>
 
-// 2. Display a loading message immediately so the page is never blank
-document.querySelector("#app").innerHTML = "<p>Loading the universe...</p>";
+    <div id="app"></div>
 
-//  CUSTOM FEATURE: Interactive Live Clock
-
-function updateClock() {
-  const now = new Date();
-  
-  // Format numbers to always be two digits (e.g., "09" instead of "9")
-  const hours = String(now.getHours()).padStart(2, '0');
-  const minutes = String(now.getMinutes()).padStart(2, '0');
-  const seconds = String(now.getSeconds()).padStart(2, '0');
-  
-  // Inject the formatted time into the HTML box with id="clock"
-  document.querySelector("#clock").innerHTML = `${hours}:${minutes}:${seconds}`;
-}
-
-// Start the clock immediately and update it every second (1000ms)
-updateClock();
-setInterval(updateClock, 1000);
-
-// 3. Fetch data from the NASA APOD API
-fetch(`https://api.nasa.gov/planetary/apod?api_key=${API_KEY}`)
-  .then(response => response.json()) // Convert the raw response into a usable JavaScript object
-  .then(data => {
-    let media;
-
-    // Check the media type to render the correct HTML tag
-    if (data.media_type === "image") {
-      media = `<img src="${data.url}" alt="${data.title}"/>`;
-    } else if (data.url.includes("youtube.com") || data.url.includes("youtu.be")) {
-      // Bonus Challenge: Embed YouTube videos using an iframe
-      media = `<iframe src="${data.url}" frameborder="0" allowfullscreen></iframe>`;
-    } else {
-      media = `<video src="${data.url}" controls></video>`;
-    }
-
-    // Update the DOM exactly ONCE with all the fetched elements
-    document.querySelector("#app").innerHTML = `
-      <h1>${data.title}</h1>
-      <div class="media-container">${media}</div>
-      <p class="explanation">${data.explanation}</p>
-    `;
-  })
-  .catch(err => {
-    // Handle network errors, invalid keys, or API downtime smoothly
-    document.querySelector("#app").innerHTML = `<p>Error in orbit: ${err.message}</p>`;
-  });
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
