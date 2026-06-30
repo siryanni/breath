@@ -1,12 +1,6 @@
 // 1. Import the API key from the secure .env environment
 const API_KEY = import.meta.env.VITE_NASA_API_KEY;
 
-// Temporärer Check für GitHub Pages (löschen wir später)
-alert("LIVE KEY CHECK: " + API_KEY);
-
-// Temporärer Check für GitHub Pages (löschen wir später)
-alert("LIVE KEY CHECK: " + API_KEY);
-
 // 2. Display a loading message immediately so the page is never blank
 document.querySelector("#app").innerHTML = "<p>Loading the universe...</p>";
 
