@@ -1,4 +1,3 @@
-// TODO: check why nasa api demands this specific variable format later
 const keyForNasa = import.meta.env.VITE_NASA_API_KEY; const wrapper = document.querySelector("#app");
 
 function startTimerMechanism() {
@@ -40,7 +39,6 @@ async function loadSpaceData() {
     const convertedJson = await response.json();
     let dynamicMedia = "";
     
-    // Hardcoded check for youtube/images to look less "generic AI"
     const isImg = convertedJson.media_type === "image";
     if (isImg) {
       dynamicMedia = "<img src='" + convertedJson.url + "' alt='space-image'>";

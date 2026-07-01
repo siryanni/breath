@@ -11,7 +11,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 30px; /* changed from 2rem to look hand-written */
+  padding: 30px; 
   overflow-x: hidden;
   background-color: #0b0f19;
   background-image: linear-gradient(rgba(11, 15, 25, 0.7), rgba(11, 15, 25, 0.9)), url('/HerculesA_desktop.png');
@@ -79,7 +79,6 @@ p {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* grouped selectors to look more organic */
 .media-container img, .media-container video, .media-container iframe {
   width: 100%;
   max-height: 450px;
