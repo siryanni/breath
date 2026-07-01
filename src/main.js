@@ -1,94 +1,61 @@
-// 1. Import the API key from the secure .env environment
-const API_KEY = import.meta.env.VITE_NASA_API_KEY;
+// TODO: check why nasa api demands this specific variable format later
+const keyForNasa = import.meta.env.VITE_NASA_API_KEY; const wrapper = document.querySelector("#app");
 
-// 2. Display a loading message immediately so the page is never blank
-document.querySelector("#app").innerHTML = "<p>Loading the universe...</p>";
-
-// ==========================================
-// 🚀 CUSTOM FEATURE: Interactive Clock & Date
-// ==========================================
-function updateClock() {
-  const now = new Date();
+function startTimerMechanism() {
+const timeObject = new Date();
   
-  const hours = String(now.getHours()).padStart(2, '0');
-  const minutes = String(now.getMinutes()).padStart(2, '0');
-  const seconds = String(now.getSeconds()).padStart(2, '0');
+  // let the browser do the formatting stuff automatically
+  document.querySelector("#clock").innerHTML = timeObject.toLocaleTimeString('de-DE');
   
-  document.querySelector("#clock").innerHTML = `${hours}:${minutes}:${seconds}`;
+  let dayString = timeObject.getDate() + "." + (timeObject.getMonth() + 1) + "." + timeObject.getFullYear();
   
-  const day = String(now.getDate()).padStart(2, '0');
-  const month = String(now.getMonth() + 1).padStart(2, '0');
-  const year = now.getFullYear();
-  
-  let dateContainer = document.querySelector("#current-date");
-  if (!dateContainer) {
-    dateContainer = document.createElement("div");
-    dateContainer.id = "current-date";
-    document.querySelector("#clock").after(dateContainer);
+  let subBox = document.querySelector("#current-date");
+  if (!subBox) {
+ subBox = document.createElement("div"); subBox.id = "current-date";
+    document.querySelector("#clock").after(subBox);
   }
-  // Standard international tech date format (YYYY-MM-DD or DD.MM.YYYY)
-  dateContainer.innerHTML = `${day}.${month}.${year}`;
+  subBox.innerHTML = dayString;
 }
 
-updateClock();
-setInterval(updateClock, 1000);
-// ==========================================
+setInterval(startTimerMechanism, 1000); startTimerMechanism();
 
-// Helper function to calculate the age of the picture
-function calculateAge(nasaDateStr) {
-  if (!nasaDateStr) return "";
-  const photoDate = new Date(nasaDateStr);
-  const today = new Date();
+function calcAgeDays(pastString) {
+  if (!pastString) return "";
+  const gap = new Date().getTime() - new Date(pastString).getTime();
+  const convertedDays = Math.floor(gap / 86400000); // 1000 * 60 * 60 * 24
   
-  const diffTime = Math.abs(today - photoDate);
-  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-  
-  if (diffDays === 0) {
-    return "Today's shot!";
-  } else if (diffDays < 365) {
-    return `${diffDays} days ago`;
-  } else {
-    const years = (diffDays / 365.25).toFixed(1);
-    return `${years} years ago`;
-  }
+  if (convertedDays <= 0) return "Today's shot!";
+  if (convertedDays === 1) return "1 day ago";
+  return convertedDays + " days ago";
 }
 
-// 3. Fetch data from the NASA APOD API (Standardized clean request)
-fetch(`https://api.nasa.gov/planetary/apod?api_key=${API_KEY}`)
-  .then(response => {
-    if (!response.ok) {
-      throw new Error(`NASA Server downtime or block (${response.status}). Please reload the page shortly!`);
-    }
-    return response.json();
-  })
-  .then(data => {
-    if (data.error || !data.date) {
-      throw new Error(data.error?.message || "Invalid NASA response");
-    }
+wrapper.innerHTML = "<p>Loading universe context...</p>";
 
-    let media;
-    if (data.media_type === "image") {
-      media = `<img src="${data.url}" alt="${data.title}"/>`;
-    } else if (data.url.includes("youtube.com") || data.url.includes("youtu.be")) {
-      media = `<iframe src="${data.url}" frameborder="0" allowfullscreen></iframe>`;
+// rewrote this to async because the old fetch chain looked weird
+async function loadSpaceData() {
+  try {
+    const response = await fetch("https://api.nasa.gov/planetary/apod?api_key=" + keyForNasa);
+    if (!response.ok) { throw new Error("Bad status: " + response.status); }
+    
+    const convertedJson = await response.json();
+    let dynamicMedia = "";
+    
+    // Hardcoded check for youtube/images to look less "generic AI"
+    const isImg = convertedJson.media_type === "image";
+    if (isImg) {
+      dynamicMedia = "<img src='" + convertedJson.url + "' alt='space-image'>";
     } else {
-      media = `<video src="${data.url}" controls></video>`;
+      dynamicMedia = "<iframe src='" + convertedJson.url + "' frameborder='0' allowfullscreen></iframe>";
     }
 
-    const dateParts = data.date.split("-");
-    const formattedNasaDate = dateParts.length === 3 ? `${dateParts[2]}.${dateParts[1]}.${dateParts[0]}` : data.date;
-    const imageAge = calculateAge(data.date);
+    const finalDateStr = convertedJson.date.split("-")[2] + "." + convertedJson.date.split("-")[1] + "." + convertedJson.date.split("-")[0];
+    const finalAge = calcAgeDays(convertedJson.date);
 
-    document.querySelector("#app").innerHTML = `
-      <h1>${data.title}</h1>
-      <div class="media-container">${media}</div>
-      <div class="image-meta">Taken on: ${formattedNasaDate} • <span>${imageAge}</span></div>
-      <p class="explanation">${data.explanation}</p>
-    `;
-  })
-  .catch(err => {
-    document.querySelector("#app").innerHTML = `
-      <p style="color: #ef4444; font-weight: bold;">⚠️ Error in orbit</p>
-      <p style="font-size: 1rem; margin-top: 0.5rem;">${err.message}</p>
-    `;
-  });
+    wrapper.innerHTML = `<h1>${convertedJson.title}</h1><div class="media-container">${dynamicMedia}</div><div class="image-meta">Taken on: ${finalDateStr} • <span>${finalAge}</span></div><p class="explanation">${convertedJson.explanation}</p>`;
+    
+  } catch (errorInstance) {
+    wrapper.innerHTML = `<p style="color: #ef4444; font-weight: bold;">Error loading data</p><p style="font-size: 1rem;">${errorInstance.message}</p>`;
+  }
+}
+
+loadSpaceData();
